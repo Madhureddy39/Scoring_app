@@ -1,5 +1,0 @@
-streamlit
-pandas
-openai
-fuzzywuzzy
-python-Levenshtein  # Required for fuzzywuzzy's fast operations
