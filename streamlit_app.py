@@ -1,4 +1,3 @@
-    
 
 import streamlit as st
 import pandas as pd
@@ -6,27 +5,12 @@ import openai
 from fuzzywuzzy import fuzz  # Fallback for local similarity scoring
 import openpyxl  
 
+
 # OpenAI API Key
 openai.api_key = "YOUR_OPENAI_API_KEY"
 
-# Add Tarento logo
-st.image("https://strapi.tarento.com/uploads/Tarento_logo_749f934596.svg", width=200)
 
-# Add custom CSS for reducing sidebar height
-st.markdown(
-    """
-    <style>
-    /* Adjust sidebar padding and margins */
-    [data-testid="stSidebar"] > div:first-child {
-        padding: 10px; /* Adjust padding to reduce height */
-    }
-    [data-testid="stSidebar"] {
-        min-width: 250px; /* Adjust width if needed */
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+st.image("https://strapi.tarento.com/uploads/Tarento_logo_749f934596.svg", width=200)
 
 # Function to compute LLM-based semantic similarity
 def compute_llm_similarity(input_value, reference_value):
@@ -52,6 +36,7 @@ def preprocess_string(value):
 # Streamlit UI
 st.title("Semantic Similarity Scoring Tool")
 st.sidebar.header("Settings")
+
 
 uploaded_input_file = st.sidebar.file_uploader("Upload Input File", type=["xlsx"])
 uploaded_ref_file = st.sidebar.file_uploader("Upload Reference File", type=["xlsx"])
