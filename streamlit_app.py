@@ -19,9 +19,6 @@ from fuzzywuzzy import fuzz  # Fallback for local similarity scoring
 # OpenAI API Key
 openai.api_key = "YOUR_OPENAI_API_KEY"
 
-# Tarento logo
-st.set_page_config(page_title="Semantic Scoring Tool", layout="wide")
-st.image("tarento_logo.png", width=200)  # Adjust the path and width as needed
 
 # Function to compute LLM-based semantic similarity
 def compute_llm_similarity(input_value, reference_value):
