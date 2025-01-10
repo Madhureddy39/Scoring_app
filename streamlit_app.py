@@ -20,6 +20,8 @@ from fuzzywuzzy import fuzz  # Fallback for local similarity scoring
 openai.api_key = "YOUR_OPENAI_API_KEY"
 
 
+st.image("https://strapi.tarento.com/uploads/Tarento_logo_749f934596.svg", width=200)
+
 # Function to compute LLM-based semantic similarity
 def compute_llm_similarity(input_value, reference_value):
     try:
