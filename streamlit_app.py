@@ -1,13 +1,15 @@
 
 
+
+import os
 import subprocess
 
 try:
     import openpyxl
 except ImportError:
     subprocess.check_call(["pip", "install", "openpyxl"])
-    import openpyxl
-    
+    import openpyxl    
+
 import streamlit as st
 import pandas as pd
 import openai
