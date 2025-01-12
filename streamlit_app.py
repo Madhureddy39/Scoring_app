@@ -1,14 +1,11 @@
-
 import streamlit as st
 import pandas as pd
 import openai
 from fuzzywuzzy import fuzz  # Fallback for local similarity scoring
 import openpyxl  
 
-
 # OpenAI API Key
 openai.api_key = "YOUR_OPENAI_API_KEY"
-
 
 st.image("https://strapi.tarento.com/uploads/Tarento_logo_749f934596.svg", width=200)
 
@@ -37,6 +34,23 @@ def preprocess_string(value):
 st.title("Semantic Similarity Scoring Tool")
 st.sidebar.header("Settings")
 
+# Add weightage selection in the sidebar
+st.sidebar.subheader("Weightage Settings")
+weight_option = st.sidebar.radio(
+    "Select weightage between Mandatory and Good-to-Have fields:",
+    options=["70:30", "60:40"],
+    index=0  # Default to the first option
+)
+
+# Adjust weights based on user selection
+if weight_option == "70:30":
+    mandatory_weight = 70
+    good_to_have_weight = 30
+else:
+    mandatory_weight = 60
+    good_to_have_weight = 40
+
+st.sidebar.write(f"Selected Weightage: {mandatory_weight}% Mandatory, {good_to_have_weight}% Good-to-Have")
 
 uploaded_input_file = st.sidebar.file_uploader("Upload Input File", type=["xlsx"])
 uploaded_ref_file = st.sidebar.file_uploader("Upload Reference File", type=["xlsx"])
@@ -57,9 +71,6 @@ if "ref_columns" not in st.session_state:
 mandatory_columns = st.sidebar.multiselect("Select Mandatory Columns", st.session_state["ref_columns"], key="mandatory")
 good_to_have_columns = st.sidebar.multiselect("Select Good-to-Have Columns", st.session_state["ref_columns"], key="good_to_have")
 output_path = st.sidebar.text_input("Output File Path", "output.xlsx")
-
-mandatory_weight = 70
-good_to_have_weight = 30
 
 if st.sidebar.button("Run Scoring"):
     if uploaded_input_file and uploaded_ref_file:
