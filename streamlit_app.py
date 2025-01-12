@@ -34,14 +34,6 @@ def preprocess_string(value):
 st.title("Semantic Similarity Scoring Tool")
 st.sidebar.header("Settings")
 
-# Add weightage selection in the sidebar
-st.sidebar.subheader("Weightage Settings")
-weight_option = st.sidebar.radio(
-    "Select weightage between Mandatory and Good-to-Have fields:",
-    options=["70:30", "60:40"],
-    index=0  # Default to the first option
-)
-
 
 uploaded_input_file = st.sidebar.file_uploader("Upload Input File", type=["xlsx"])
 uploaded_ref_file = st.sidebar.file_uploader("Upload Reference File", type=["xlsx"])
@@ -61,6 +53,14 @@ if "ref_columns" not in st.session_state:
 
 mandatory_columns = st.sidebar.multiselect("Select Mandatory Columns", st.session_state["ref_columns"], key="mandatory")
 good_to_have_columns = st.sidebar.multiselect("Select Good-to-Have Columns", st.session_state["ref_columns"], key="good_to_have")
+
+# Add weightage selection in the sidebar
+st.sidebar.subheader("Weightage Settings")
+weight_option = st.sidebar.radio(
+    "Select weightage between Mandatory and Good-to-Have fields:",
+    options=["70:30", "60:40"],
+    index=0  # Default to the first option
+)
 
 # Adjust weights based on user selection
 if weight_option == "70:30":
