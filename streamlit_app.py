@@ -42,15 +42,6 @@ weight_option = st.sidebar.radio(
     index=0  # Default to the first option
 )
 
-# Adjust weights based on user selection
-if weight_option == "70:30":
-    mandatory_weight = 70
-    good_to_have_weight = 30
-else:
-    mandatory_weight = 60
-    good_to_have_weight = 40
-
-st.sidebar.write(f"Selected Weightage: {mandatory_weight}% Mandatory, {good_to_have_weight}% Good-to-Have")
 
 uploaded_input_file = st.sidebar.file_uploader("Upload Input File", type=["xlsx"])
 uploaded_ref_file = st.sidebar.file_uploader("Upload Reference File", type=["xlsx"])
@@ -70,6 +61,16 @@ if "ref_columns" not in st.session_state:
 
 mandatory_columns = st.sidebar.multiselect("Select Mandatory Columns", st.session_state["ref_columns"], key="mandatory")
 good_to_have_columns = st.sidebar.multiselect("Select Good-to-Have Columns", st.session_state["ref_columns"], key="good_to_have")
+
+# Adjust weights based on user selection
+if weight_option == "70:30":
+    mandatory_weight = 70
+    good_to_have_weight = 30
+else:
+    mandatory_weight = 60
+    good_to_have_weight = 40
+
+st.sidebar.write(f"Selected Weightage: {mandatory_weight}% Mandatory, {good_to_have_weight}% Good-to-Have")
 output_path = st.sidebar.text_input("Output File Path", "output.xlsx")
 
 if st.sidebar.button("Run Scoring"):
