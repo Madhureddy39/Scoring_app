@@ -3,13 +3,9 @@ import pandas as pd
 import openai
 from fuzzywuzzy import fuzz  # Fallback for local similarity scoring
 import openpyxl  
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
-
 
 # OpenAI API Key
-openai.api_key = "YOUR_OPENAI_API_KEY"
+openai.api_key = "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"
 
 st.image("https://strapi.tarento.com/uploads/Tarento_logo_749f934596.svg", width=200)
 
@@ -34,22 +30,10 @@ def compute_llm_similarity(input_value, reference_value):
 def preprocess_string(value):
     return value.strip().lower().replace(" ", "")
 
-# Function to vectorize data and compute cosine similarity
-def vectorized_similarity(input_value, ref_values):
-    vectorizer = TfidfVectorizer(stop_words='english')
-    # Combine input value and reference values to form a corpus
-    corpus = [input_value] + ref_values
-    tfidf_matrix = vectorizer.fit_transform(corpus)
-    
-    # Compute cosine similarity between input value and all reference values
-    cosine_sim = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:])
-    
-    # Return the highest cosine similarity score
-    return max(cosine_sim[0])
-
 # Streamlit UI
 st.title("Semantic Similarity Scoring Tool")
 st.sidebar.header("Settings")
+
 
 uploaded_input_file = st.sidebar.file_uploader("Upload Input File", type=["xlsx"])
 uploaded_ref_file = st.sidebar.file_uploader("Upload Reference File", type=["xlsx"])
@@ -150,8 +134,19 @@ if st.sidebar.button("Run Scoring"):
                             if full_match_found:
                                 continue
 
-                            # Use vectorized cosine similarity for partial matching
-                            max_similarity = vectorized_similarity(input_value, ref_values)
+                            # Use LLM for partial matching
+                            for ref_value in ref_values:
+                                if ref_value in fully_matched_values:
+                                    continue
+
+                                processed_input = preprocess_string(input_value)
+                                processed_ref = preprocess_string(ref_value)
+
+                                llm_similarity = compute_llm_similarity(processed_input, processed_ref)
+                                if llm_similarity > max_similarity:
+                                    max_similarity = llm_similarity
+                                    best_ref_value = ref_value
+                                    best_ref_col = ref_col
 
                         # Handle partial matches
                         if max_similarity > 0.3:
