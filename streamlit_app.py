@@ -7,6 +7,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
+
 # OpenAI API Key
 openai.api_key = "YOUR_OPENAI_API_KEY"
 
