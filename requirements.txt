@@ -4,3 +4,7 @@ openai
 fuzzywuzzy
 python-Levenshtein  # Required for fuzzywuzzy's fast operations
 openpyxl
+scikit-learn
+numpy
+matplotlib
+seaborn
